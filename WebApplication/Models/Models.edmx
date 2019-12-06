@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ThoiKhoaBieuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TkbDanhSach">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NgayTao" Type="date" Nullable="false" />
+          <Property Name="TenGoi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TkbHocPhan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tkb_id" Type="int" Nullable="false" />
+          <Property Name="MaHP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TenHocPhan" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="TinChi" Type="tinyint" Nullable="false" />
+          <Property Name="NhomTo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Thu" Type="tinyint" Nullable="false" />
+          <Property Name="Phong" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TietBatDau" Type="tinyint" Nullable="false" />
+          <Property Name="SoTiet" Type="tinyint" Nullable="false" />
+          <Property Name="SoSV" Type="tinyint" Nullable="false" />
+          <Property Name="TuanBatDau" Type="tinyint" Nullable="false" />
+          <Property Name="TuanKetThuc" Type="tinyint" Nullable="false" />
+          <Property Name="Nganh" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="MaKhoa" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__TkbHocPha__Tkb_i__395884C4">
+          <End Role="TkbDanhSach" Type="Self.TkbDanhSach" Multiplicity="1" />
+          <End Role="TkbHocPhan" Type="Self.TkbHocPhan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TkbDanhSach">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TkbHocPhan">
+              <PropertyRef Name="Tkb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ThoiKhoaBieuModelStoreContainer">
+          <EntitySet Name="TkbDanhSach" EntityType="Self.TkbDanhSach" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TkbHocPhan" EntityType="Self.TkbHocPhan" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__TkbHocPha__Tkb_i__395884C4" Association="Self.FK__TkbHocPha__Tkb_i__395884C4">
+            <End Role="TkbDanhSach" EntitySet="TkbDanhSach" />
+            <End Role="TkbHocPhan" EntitySet="TkbHocPhan" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ThoiKhoaBieuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TkbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TkbDanhSaches" EntityType="ThoiKhoaBieuModel.TkbDanhSach" />
+          <EntitySet Name="TkbHocPhans" EntityType="ThoiKhoaBieuModel.TkbHocPhan" />
+          <AssociationSet Name="FK__TkbHocPha__Tkb_i__395884C4" Association="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4">
+            <End Role="TkbDanhSach" EntitySet="TkbDanhSaches" />
+            <End Role="TkbHocPhan" EntitySet="TkbHocPhans" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="TkbDanhSach">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TenGoi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TkbHocPhans" Relationship="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbDanhSach" ToRole="TkbHocPhan" />
+        </EntityType>
+        <EntityType Name="TkbHocPhan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tkb_id" Type="Int32" Nullable="false" />
+          <Property Name="MaHP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TenHocPhan" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TinChi" Type="Byte" Nullable="false" />
+          <Property Name="NhomTo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Thu" Type="Byte" Nullable="false" />
+          <Property Name="Phong" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TietBatDau" Type="Byte" Nullable="false" />
+          <Property Name="SoTiet" Type="Byte" Nullable="false" />
+          <Property Name="SoSV" Type="Byte" Nullable="false" />
+          <Property Name="TuanBatDau" Type="Byte" Nullable="false" />
+          <Property Name="TuanKetThuc" Type="Byte" Nullable="false" />
+          <Property Name="Nganh" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MaKhoa" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TkbDanhSach" Relationship="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbHocPhan" ToRole="TkbDanhSach" />
+        </EntityType>
+        <Association Name="FK__TkbHocPha__Tkb_i__395884C4">
+          <End Type="ThoiKhoaBieuModel.TkbDanhSach" Role="TkbDanhSach" Multiplicity="1" />
+          <End Type="ThoiKhoaBieuModel.TkbHocPhan" Role="TkbHocPhan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TkbDanhSach">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TkbHocPhan">
+              <PropertyRef Name="Tkb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ThoiKhoaBieuModelStoreContainer" CdmEntityContainer="TkbEntities">
+          <EntitySetMapping Name="TkbDanhSaches">
+            <EntityTypeMapping TypeName="ThoiKhoaBieuModel.TkbDanhSach">
+              <MappingFragment StoreEntitySet="TkbDanhSach">
+                <ScalarProperty Name="TenGoi" ColumnName="TenGoi" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TkbHocPhans">
+            <EntityTypeMapping TypeName="ThoiKhoaBieuModel.TkbHocPhan">
+              <MappingFragment StoreEntitySet="TkbHocPhan">
+                <ScalarProperty Name="MaKhoa" ColumnName="MaKhoa" />
+                <ScalarProperty Name="Nganh" ColumnName="Nganh" />
+                <ScalarProperty Name="TuanKetThuc" ColumnName="TuanKetThuc" />
+                <ScalarProperty Name="TuanBatDau" ColumnName="TuanBatDau" />
+                <ScalarProperty Name="SoSV" ColumnName="SoSV" />
+                <ScalarProperty Name="SoTiet" ColumnName="SoTiet" />
+                <ScalarProperty Name="TietBatDau" ColumnName="TietBatDau" />
+                <ScalarProperty Name="Phong" ColumnName="Phong" />
+                <ScalarProperty Name="Thu" ColumnName="Thu" />
+                <ScalarProperty Name="NhomTo" ColumnName="NhomTo" />
+                <ScalarProperty Name="TinChi" ColumnName="TinChi" />
+                <ScalarProperty Name="TenHocPhan" ColumnName="TenHocPhan" />
+                <ScalarProperty Name="MaHP" ColumnName="MaHP" />
+                <ScalarProperty Name="Tkb_id" ColumnName="Tkb_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebApplication.Models.TkbDanhSach>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="javascript:void($('#UploadFile').click())">Upload New</a>
+    @using (Html.BeginForm("Create", "TkbDanhSach", FormMethod.Post, new { enctype = "multipart/form-data", id = "UploadForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.TextBox("UploadFile", null, new { type = "file", style = "display:none" })
+    }
+    <a href="@Url.Content("~/App_Data/KCT_TKB_HK192.xlsx")" style="float:right">Template</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NgayTao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenGoi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NgayTao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenGoi)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>
+
+@section Scripts {
+    <script>
+        $('#UploadFile').change(function () {
+            if ($(this).val().length > 1) {
+                $('#UploadForm').submit();
+            }
+        });
+    </script>
+}
