@@ -46,32 +46,42 @@ namespace WebApplication.Controllers
             {
                 ConfigureDataTable = (_) => new ExcelDataTableConfiguration() { UseHeaderRow = true }
             });
-            var table = result.Tables[0];
 
             using (var scope = new TransactionScope())
             {
-                var model = new TkbDanhSach
+                foreach (DataTable table in result.Tables)
                 {
-                    TenGoi = table.TableName
-                };
-                db.TkbDanhSaches.Add(model);
-                db.SaveChanges();
-
-                foreach (DataRow row in table.Rows)
-                {
-                    db.TkbHocPhans.Add(new TkbHocPhan
+                    var model = new TkbDanhSach
                     {
-                        Tkb_id = model.id,
-                        MaHP = row["Mã HP"].ToString(),
-                        TenHocPhan = row["Tên học phần"].ToString(),
-                        TinChi = byte.Parse(row["Tín chỉ"].ToString()),
-                        NhomTo = row["Nhóm/Tổ"].ToString(),
-                        Thu = byte.Parse(row["Thứ"].ToString()),
-                        Phong = row["Phòng"].ToString(),
-                        TietBatDau = byte.Parse(row["Tiết bắt đầu"].ToString()),
-                        SoTiet = byte.Parse(row["Số tiết"].ToString())
-                    });
+                        NgayTao = DateTime.Now,
+                        TenGoi = table.TableName,
+                    };
+                    db.TkbDanhSaches.Add(model);
+                    db.SaveChanges();
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        db.TkbHocPhans.Add(new TkbHocPhan
+                        {
+                            Tkb_id = model.id,
+                            MaHP = row["Mã HP"].ToString(),
+                            TenHocPhan = row["Tên học phần"].ToString(),
+                            TinChi = row["Tín chỉ"].ToInteger(),
+                            NhomTo = row["Nhóm/Tổ"].ToString(),
+                            Thu = row["Thứ"].ToInteger(),
+                            Phong = row["Phòng"].ToString(),
+                            TietBatDau = row["Tiết bắt đầu"].ToInteger(),
+                            SoTiet = row["Số tiết"].ToInteger(),
+                            SoSV = row["Số SV"].ToInteger(),
+                            TuanBatDau = row["Tuần bắt đầu"].ToInteger(),
+                            TuanKetThuc = row["Tuần kết thúc"].ToInteger(),
+                            Nganh = row["Ngành"].ToString(),
+                            MaKhoa = row["Mã khoa"].ToString(),
+                        });
+                    }
+                    db.SaveChanges();
                 }
+                scope.Complete();
             }
             return RedirectToAction("Index");
         }
@@ -114,12 +124,12 @@ namespace WebApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TkbDanhSach tkbDanhSach = db.TkbDanhSaches.Find(id);
-            if (tkbDanhSach == null)
+            var model = db.TkbDanhSaches.Find(id);
+            if (model == null)
             {
                 return HttpNotFound();
             }
-            return View(tkbDanhSach);
+            return View(model);
         }
 
         // POST: TkbDanhSach/Delete/5
@@ -127,8 +137,9 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TkbDanhSach tkbDanhSach = db.TkbDanhSaches.Find(id);
-            db.TkbDanhSaches.Remove(tkbDanhSach);
+            var model = db.TkbDanhSaches.Find(id);
+            db.TkbHocPhans.RemoveRange(model.TkbHocPhans);
+            db.TkbDanhSaches.Remove(model);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

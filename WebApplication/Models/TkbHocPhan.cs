@@ -18,15 +18,15 @@ namespace WebApplication.Models
         public int Tkb_id { get; set; }
         public string MaHP { get; set; }
         public string TenHocPhan { get; set; }
-        public byte TinChi { get; set; }
+        public int TinChi { get; set; }
         public string NhomTo { get; set; }
-        public byte Thu { get; set; }
+        public int Thu { get; set; }
         public string Phong { get; set; }
-        public byte TietBatDau { get; set; }
-        public byte SoTiet { get; set; }
-        public byte SoSV { get; set; }
-        public byte TuanBatDau { get; set; }
-        public byte TuanKetThuc { get; set; }
+        public int TietBatDau { get; set; }
+        public int SoTiet { get; set; }
+        public int SoSV { get; set; }
+        public int TuanBatDau { get; set; }
+        public int TuanKetThuc { get; set; }
         public string Nganh { get; set; }
         public string MaKhoa { get; set; }
     

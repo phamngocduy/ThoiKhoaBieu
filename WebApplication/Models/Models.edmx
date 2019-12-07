@@ -19,19 +19,19 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Tkb_id" Type="int" Nullable="false" />
-          <Property Name="MaHP" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="TenHocPhan" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="TinChi" Type="tinyint" Nullable="false" />
-          <Property Name="NhomTo" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Thu" Type="tinyint" Nullable="false" />
-          <Property Name="Phong" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="TietBatDau" Type="tinyint" Nullable="false" />
-          <Property Name="SoTiet" Type="tinyint" Nullable="false" />
-          <Property Name="SoSV" Type="tinyint" Nullable="false" />
-          <Property Name="TuanBatDau" Type="tinyint" Nullable="false" />
-          <Property Name="TuanKetThuc" Type="tinyint" Nullable="false" />
-          <Property Name="Nganh" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="MaKhoa" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MaHP" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TenHocPhan" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TinChi" Type="int" Nullable="false" />
+          <Property Name="NhomTo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Thu" Type="int" Nullable="false" />
+          <Property Name="Phong" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TietBatDau" Type="int" Nullable="false" />
+          <Property Name="SoTiet" Type="int" Nullable="false" />
+          <Property Name="SoSV" Type="int" Nullable="false" />
+          <Property Name="TuanBatDau" Type="int" Nullable="false" />
+          <Property Name="TuanKetThuc" Type="int" Nullable="false" />
+          <Property Name="Nganh" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaKhoa" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK__TkbHocPha__Tkb_i__395884C4">
           <End Role="TkbDanhSach" Type="Self.TkbDanhSach" Multiplicity="1" />
@@ -80,19 +80,19 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Tkb_id" Type="Int32" Nullable="false" />
-          <Property Name="MaHP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TenHocPhan" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="TinChi" Type="Byte" Nullable="false" />
-          <Property Name="NhomTo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Thu" Type="Byte" Nullable="false" />
-          <Property Name="Phong" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TietBatDau" Type="Byte" Nullable="false" />
-          <Property Name="SoTiet" Type="Byte" Nullable="false" />
-          <Property Name="SoSV" Type="Byte" Nullable="false" />
-          <Property Name="TuanBatDau" Type="Byte" Nullable="false" />
-          <Property Name="TuanKetThuc" Type="Byte" Nullable="false" />
-          <Property Name="Nganh" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MaKhoa" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaHP" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenHocPhan" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TinChi" Type="Int32" Nullable="false" />
+          <Property Name="NhomTo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Thu" Type="Int32" Nullable="false" />
+          <Property Name="Phong" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TietBatDau" Type="Int32" Nullable="false" />
+          <Property Name="SoTiet" Type="Int32" Nullable="false" />
+          <Property Name="SoSV" Type="Int32" Nullable="false" />
+          <Property Name="TuanBatDau" Type="Int32" Nullable="false" />
+          <Property Name="TuanKetThuc" Type="Int32" Nullable="false" />
+          <Property Name="Nganh" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaKhoa" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TkbDanhSach" Relationship="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbHocPhan" ToRole="TkbDanhSach" />
         </EntityType>
         <Association Name="FK__TkbHocPha__Tkb_i__395884C4">

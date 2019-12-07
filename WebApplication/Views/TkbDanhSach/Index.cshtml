@@ -15,13 +15,13 @@
     }
     <a href="@Url.Content("~/App_Data/KCT_TKB_HK192.xlsx")" style="float:right">Template</a>
 </p>
-<table class="table">
+<table class="table table-bordered table-hover table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.NgayTao)
+            Ngày tạo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TenGoi)
+            Tên gọi
         </th>
         <th></th>
     </tr>
@@ -32,11 +32,10 @@
             @Html.DisplayFor(modelItem => item.NgayTao)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TenGoi)
+            @Html.ActionLink(item.TenGoi, "Details", new { id = item.id })
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
@@ -49,6 +48,7 @@
         $('#UploadFile').change(function () {
             if ($(this).val().length > 1) {
                 $('#UploadForm').submit();
+                $('html').fadeTo('slow', 0);
             }
         });
     </script>
