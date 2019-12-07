@@ -20,11 +20,12 @@ namespace WebApplication
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap.js", "~/Scripts/bootstrap-editable.js",
+                      "~/Scripts/typeahead.js", "~/Scripts/typeaheadjs.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap.css", "~/Content/bootstrap-editable.css",
+                      "~/Content/typeaheadjs-bootstrap.css", "~/Content/site.css"));
         }
     }
 }

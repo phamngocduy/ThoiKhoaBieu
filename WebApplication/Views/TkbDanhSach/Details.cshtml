@@ -1,34 +1,186 @@
-﻿@model WebApplication.Models.TkbDanhSach
-
+﻿@model TkbDanhSach
 @{
     ViewBag.Title = "Details";
+    var ThongKe = ViewBag.ThongKe as List<TkbThongKe>;
+    var GiangVien = ViewBag.GiangVien as List<TkbGiangVien>;
+    var Colors = new Dictionary<string, string[]>();
+    var Random = new Random();
 }
 
-<h2>Details</h2>
+<style>
+    .body-content {
+        width: 100% !important;
+    }
+    .row {
+        margin-left: -5px !important;
+        margin-right: -5px !important;
+    }
+</style>
 
 <div>
-    <h4>TkbDanhSach</h4>
+    <h4>@Model.TenGoi</h4>
+    @foreach (var monHoc in Model.TkbHocPhans.GroupBy(mh => mh.MaHP))
+    {
+        <a id="@monHoc.Key" href="#" onclick="toggle('@monHoc.Key')" style="display:none">@monHoc.First().TenHocPhan;</a>
+    }
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.NgayTao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NgayTao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TenGoi)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TenGoi)
-        </dd>
-
-    </dl>
+    <table class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th rowspan="2">
+                    <a href="#" onclick="toggleAll()">Môn học</a>
+                </th>
+                @for (int i=2; i<=7; i++)
+                {
+                    <th colspan="12" style="text-align:center">Thứ @i</th>
+                }
+            </tr>
+            <tr>
+                @for (int i=0; i<6; i++)
+                {
+                    for (int j=1; j<=12; j++)
+                    {
+                        <th style="font-family:monospace">
+                            @switch (j)
+                            {
+                                case 10:
+                                    @('J')
+                                    break;
+                                case 11:
+                                    @('Q')
+                                    break;
+                                case 12:
+                                    @('K')
+                                    break;
+                                default:
+                                    @j
+                                    break;
+                            }
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var monHoc in Model.TkbHocPhans.GroupBy(hp => hp.MaHP))
+            {
+                var hash = new Dictionary<int, List<TkbHocPhan[]>>();
+                foreach (var hocPhan in monHoc)
+                {
+                    if (!hash.ContainsKey(hocPhan.Thu))
+                    {
+                        hash[hocPhan.Thu] = new List<TkbHocPhan[]>();
+                    }
+                    var list = hash[hocPhan.Thu];
+                    var done = false;
+                    foreach (var row in list)
+                    {
+                        var found = true;
+                        for (int i=0; i<hocPhan.SoTiet; i++)
+                        {
+                            if (row[hocPhan.TietBatDau-1 + i] != null)
+                            {
+                                found = false;
+                            }
+                        }
+                        if (found == true)
+                        {
+                            for (int i=0; i<hocPhan.SoTiet; i++)
+                            {
+                                row[hocPhan.TietBatDau-1 + i] = hocPhan;
+                            }
+                            done = true;
+                            break;
+                        }
+                    }
+                    if (done == false)
+                    {
+                        var row = new TkbHocPhan[12];
+                        for (int i=0; i<hocPhan.SoTiet; i++)
+                        {
+                            row[hocPhan.TietBatDau-1 + i] = hocPhan;
+                        }
+                        list.Add(row);
+                    }
+                }
+                <tr id="@monHoc.Key">
+                    <td>
+                        <a href="#" onclick="toggle('@monHoc.Key')">@monHoc.First().TenHocPhan</a>
+                    </td>
+                    @for (int i=2; i<=7; i++)
+                    {
+                        var list = hash.ContainsKey(i) ? hash[i] : new List<TkbHocPhan[]>();
+                        <td colspan="12">
+                            @foreach (var row in list)
+                            {
+                                var offset = 0;
+                                <div class="row">
+                                    @for (int j=0; j<row.Length; j++)
+                                    {
+                                        if (row[j] != null)
+                                        {
+                                            var thongKe = ThongKe.FirstOrDefault(tk => tk.MaHP == row[j].id);
+                                            var giangVien = thongKe != null ? GiangVien.FirstOrDefault(gv => gv.MaGV.ToUpper() == thongKe.MaGV.ToUpper()) : null;
+                                            if (!Colors.ContainsKey(row[j].NhomTo))
+                                            {
+                                                Colors[row[j].NhomTo] = new string[] { Random.Next(200).ToString(), Random.Next(200).ToString(), Random.Next(255).ToString() };
+                                            }
+                                            <div title="@row[j].NhomTo" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;border-color:rgb(@String.Join(",", Colors[row[j].NhomTo]))">
+                                                <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right"></a>
+                                            </div>
+                                            j += row[j].SoTiet - 1;
+                                            offset = 0;
+                                        }
+                                        else { offset++; }
+                                    }
+                                </div>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section Scripts {
+    <script>
+        function toggle(maHP) {
+            $(`[id=${maHP}]`).toggle();
+        }
+        var MaHP = [@MvcHtmlString.Create(String.Join(",", Model.TkbHocPhans.Select(hp => "'"+hp.MaHP+"'").Distinct().ToArray()))];
+        function toggleAll() {
+            var show = $('tbody').find('tr:visible').length > 0;
+            MaHP.forEach(function (maHP) {
+                $(`a[id=${maHP}]`).toggle(show);
+                $(`tr[id=${maHP}]`).toggle(!show);
+            });
+        }
+    </script>
+    <script>
+        $(function () {
+            $('[data-type=typeaheadjs]').editable({
+                url: '@Url.Action("SetGiangVienHocPhan", "TkbThongKe")',
+                typeahead: {
+                    local: [@MvcHtmlString.Create(String.Join(",", GiangVien.Select(gv => String.Format("'{0} - {1}'", gv.HoTen, gv.MaGV)).ToArray()))]
+                },
+                title: 'Chọn giảng viên',
+                display: function (value) {
+                    if (!value) {
+                        $(this).empty();
+                        return;
+                    }
+                    array = value.split('-')[0].trim().split(' ');
+                    value = '';
+                    for (var i = 0; i < array.length - 1; i++)
+                        value = value + array[i][0];
+                    value = value + array[array.length - 1];
+                    $(this).html('<b>' + value + '</b>');
+                }
+            });
+        });
+    </script>
+}

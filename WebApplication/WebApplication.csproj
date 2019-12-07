@@ -137,6 +137,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\TkbDanhSachController.cs" />
+    <Compile Include="Controllers\TkbGiangVienController.cs" />
+    <Compile Include="Controllers\TkbThongKeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -159,20 +161,30 @@
     <Compile Include="Models\TkbDanhSach.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TkbGiangVien.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TkbHocPhan.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TkbThongKe.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-editable.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\typeaheadjs-bootstrap.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\clear.png" />
+    <Content Include="img\loading.gif" />
     <Content Include="Models\Models.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Models.Context.cs</LastGenOutput>
@@ -183,6 +195,8 @@
       <DependentUpon>Models.edmx</DependentUpon>
       <LastGenOutput>Models.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\bootstrap-editable.js" />
+    <Content Include="Scripts\bootstrap-editable.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\Models.edmx">
@@ -193,6 +207,7 @@
       <DependentUpon>Models.edmx</DependentUpon>
     </Content>
     <Content Include="App_Data\KCT_TKB_HK192.xlsx" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -204,6 +219,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\typeahead.js" />
+    <Content Include="Scripts\typeaheadjs.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -219,8 +236,15 @@
     <Content Include="Views\TkbDanhSach\Details.cshtml" />
     <Content Include="Views\TkbDanhSach\Edit.cshtml" />
     <Content Include="Views\TkbDanhSach\Index.cshtml" />
+    <Content Include="Views\TkbGiangVien\Create.cshtml" />
+    <Content Include="Views\TkbGiangVien\Delete.cshtml" />
+    <Content Include="Views\TkbGiangVien\Details.cshtml" />
+    <Content Include="Views\TkbGiangVien\Edit.cshtml" />
+    <Content Include="Views\TkbGiangVien\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\TkbThongKe\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

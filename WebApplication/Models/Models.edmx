@@ -10,8 +10,16 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NgayTao" Type="date" Nullable="false" />
+          <Property Name="NgayTao" Type="datetime" Nullable="false" />
           <Property Name="TenGoi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TkbGiangVien">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaGV" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HoTen" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="TkbHocPhan">
           <Key>
@@ -33,6 +41,17 @@
           <Property Name="Nganh" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MaKhoa" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="TkbThongKe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaGV" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaHP" Type="int" Nullable="false" />
+          <Property Name="Thu" Type="int" Nullable="false" />
+          <Property Name="TietBatDau" Type="int" Nullable="false" />
+          <Property Name="SoTiet" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK__TkbHocPha__Tkb_i__395884C4">
           <End Role="TkbDanhSach" Type="Self.TkbDanhSach" Multiplicity="1" />
           <End Role="TkbHocPhan" Type="Self.TkbHocPhan" Multiplicity="*" />
@@ -47,7 +66,9 @@
         </Association>
         <EntityContainer Name="ThoiKhoaBieuModelStoreContainer">
           <EntitySet Name="TkbDanhSach" EntityType="Self.TkbDanhSach" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TkbGiangVien" EntityType="Self.TkbGiangVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TkbHocPhan" EntityType="Self.TkbHocPhan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TkbThongKe" EntityType="Self.TkbThongKe" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__TkbHocPha__Tkb_i__395884C4" Association="Self.FK__TkbHocPha__Tkb_i__395884C4">
             <End Role="TkbDanhSach" EntitySet="TkbDanhSach" />
             <End Role="TkbHocPhan" EntitySet="TkbHocPhan" />
@@ -64,13 +85,15 @@
             <End Role="TkbDanhSach" EntitySet="TkbDanhSaches" />
             <End Role="TkbHocPhan" EntitySet="TkbHocPhans" />
           </AssociationSet>
+          <EntitySet Name="TkbGiangViens" EntityType="ThoiKhoaBieuModel.TkbGiangVien" />
+          <EntitySet Name="TkbThongKes" EntityType="ThoiKhoaBieuModel.TkbThongKe" />
         </EntityContainer>
         <EntityType Name="TkbDanhSach">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TenGoi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TkbHocPhans" Relationship="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbDanhSach" ToRole="TkbHocPhan" />
         </EntityType>
@@ -107,6 +130,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TkbGiangVien">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HoTen" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TkbThongKe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaHP" Type="Int32" Nullable="false" />
+          <Property Name="Thu" Type="Int32" Nullable="false" />
+          <Property Name="TietBatDau" Type="Int32" Nullable="false" />
+          <Property Name="SoTiet" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -139,6 +181,27 @@
                 <ScalarProperty Name="TenHocPhan" ColumnName="TenHocPhan" />
                 <ScalarProperty Name="MaHP" ColumnName="MaHP" />
                 <ScalarProperty Name="Tkb_id" ColumnName="Tkb_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TkbGiangViens">
+            <EntityTypeMapping TypeName="ThoiKhoaBieuModel.TkbGiangVien">
+              <MappingFragment StoreEntitySet="TkbGiangVien">
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TkbThongKes">
+            <EntityTypeMapping TypeName="ThoiKhoaBieuModel.TkbThongKe">
+              <MappingFragment StoreEntitySet="TkbThongKe">
+                <ScalarProperty Name="SoTiet" ColumnName="SoTiet" />
+                <ScalarProperty Name="TietBatDau" ColumnName="TietBatDau" />
+                <ScalarProperty Name="Thu" ColumnName="Thu" />
+                <ScalarProperty Name="MaHP" ColumnName="MaHP" />
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

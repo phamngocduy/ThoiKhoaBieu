@@ -29,12 +29,14 @@ namespace WebApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TkbDanhSach tkbDanhSach = db.TkbDanhSaches.Find(id);
-            if (tkbDanhSach == null)
+            TkbDanhSach model = db.TkbDanhSaches.Find(id);
+            if (model == null)
             {
                 return HttpNotFound();
             }
-            return View(tkbDanhSach);
+            ViewBag.ThongKe = db.TkbThongKes.ToList();
+            ViewBag.GiangVien = db.TkbGiangViens.ToList();
+            return View(model);
         }
 
         [HttpPost]
