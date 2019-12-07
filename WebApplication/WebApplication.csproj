@@ -138,6 +138,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\TkbDanhSachController.cs" />
     <Compile Include="Controllers\TkbGiangVienController.cs" />
+    <Compile Include="Controllers\TkbHocPhanController.cs" />
     <Compile Include="Controllers\TkbThongKeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -241,6 +242,8 @@
     <Content Include="Views\TkbGiangVien\Details.cshtml" />
     <Content Include="Views\TkbGiangVien\Edit.cshtml" />
     <Content Include="Views\TkbGiangVien\Index.cshtml" />
+    <Content Include="Views\TkbHocPhan\Edit.cshtml" />
+    <Content Include="Views\TkbHocPhan\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\TkbThongKe\" />

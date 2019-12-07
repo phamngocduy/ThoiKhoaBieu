@@ -29,6 +29,7 @@ namespace WebApplication.Models
         public int TuanKetThuc { get; set; }
         public string Nganh { get; set; }
         public string MaKhoa { get; set; }
+        public string VietTat { get; set; }
     
         public virtual TkbDanhSach TkbDanhSach { get; set; }
     }

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebApplication.Models.TkbHocPhan>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Môn học</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Mã MH
+        </th>
+        <th>
+            Tên môn học
+        </th>
+        <th>
+            Số TC
+        </th>
+        <th>
+            Viết tắt
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.GroupBy(hp => hp.MaHP)) {
+    <tr>
+        <td>
+            @item.Key
+        </td>
+        <td>
+            @item.First().TenHocPhan
+        </td>
+        <td>
+            @item.First().TinChi
+        </td>
+        <td>
+            @item.First().VietTat
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.First().id })
+        </td>
+    </tr>
+}
+
+</table>
