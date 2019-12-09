@@ -40,6 +40,7 @@
           <Property Name="TuanKetThuc" Type="int" Nullable="false" />
           <Property Name="Nganh" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MaKhoa" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="VietTat" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TkbThongKe">
           <Key>
@@ -80,13 +81,13 @@
       <Schema Namespace="ThoiKhoaBieuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TkbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TkbDanhSaches" EntityType="ThoiKhoaBieuModel.TkbDanhSach" />
+          <EntitySet Name="TkbGiangViens" EntityType="ThoiKhoaBieuModel.TkbGiangVien" />
           <EntitySet Name="TkbHocPhans" EntityType="ThoiKhoaBieuModel.TkbHocPhan" />
+          <EntitySet Name="TkbThongKes" EntityType="ThoiKhoaBieuModel.TkbThongKe" />
           <AssociationSet Name="FK__TkbHocPha__Tkb_i__395884C4" Association="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4">
             <End Role="TkbDanhSach" EntitySet="TkbDanhSaches" />
             <End Role="TkbHocPhan" EntitySet="TkbHocPhans" />
           </AssociationSet>
-          <EntitySet Name="TkbGiangViens" EntityType="ThoiKhoaBieuModel.TkbGiangVien" />
-          <EntitySet Name="TkbThongKes" EntityType="ThoiKhoaBieuModel.TkbThongKe" />
         </EntityContainer>
         <EntityType Name="TkbDanhSach">
           <Key>
@@ -96,6 +97,14 @@
           <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TenGoi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TkbHocPhans" Relationship="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbDanhSach" ToRole="TkbHocPhan" />
+        </EntityType>
+        <EntityType Name="TkbGiangVien">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HoTen" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TkbHocPhan">
           <Key>
@@ -116,7 +125,19 @@
           <Property Name="TuanKetThuc" Type="Int32" Nullable="false" />
           <Property Name="Nganh" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MaKhoa" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VietTat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TkbDanhSach" Relationship="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4" FromRole="TkbHocPhan" ToRole="TkbDanhSach" />
+        </EntityType>
+        <EntityType Name="TkbThongKe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaHP" Type="Int32" Nullable="false" />
+          <Property Name="Thu" Type="Int32" Nullable="false" />
+          <Property Name="TietBatDau" Type="Int32" Nullable="false" />
+          <Property Name="SoTiet" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK__TkbHocPha__Tkb_i__395884C4">
           <End Type="ThoiKhoaBieuModel.TkbDanhSach" Role="TkbDanhSach" Multiplicity="1" />
@@ -130,26 +151,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TkbGiangVien">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="HoTen" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="TkbThongKe">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaGV" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MaHP" Type="Int32" Nullable="false" />
-          <Property Name="Thu" Type="Int32" Nullable="false" />
-          <Property Name="TietBatDau" Type="Int32" Nullable="false" />
-          <Property Name="SoTiet" Type="Int32" Nullable="false" />
-        </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -164,9 +166,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TkbGiangViens">
+            <EntityTypeMapping TypeName="ThoiKhoaBieuModel.TkbGiangVien">
+              <MappingFragment StoreEntitySet="TkbGiangVien">
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TkbHocPhans">
             <EntityTypeMapping TypeName="ThoiKhoaBieuModel.TkbHocPhan">
               <MappingFragment StoreEntitySet="TkbHocPhan">
+                <ScalarProperty Name="VietTat" ColumnName="VietTat" />
                 <ScalarProperty Name="MaKhoa" ColumnName="MaKhoa" />
                 <ScalarProperty Name="Nganh" ColumnName="Nganh" />
                 <ScalarProperty Name="TuanKetThuc" ColumnName="TuanKetThuc" />
@@ -181,15 +193,6 @@
                 <ScalarProperty Name="TenHocPhan" ColumnName="TenHocPhan" />
                 <ScalarProperty Name="MaHP" ColumnName="MaHP" />
                 <ScalarProperty Name="Tkb_id" ColumnName="Tkb_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TkbGiangViens">
-            <EntityTypeMapping TypeName="ThoiKhoaBieuModel.TkbGiangVien">
-              <MappingFragment StoreEntitySet="TkbGiangVien">
-                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
-                <ScalarProperty Name="MaGV" ColumnName="MaGV" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

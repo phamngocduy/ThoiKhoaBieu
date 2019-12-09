@@ -26,8 +26,8 @@ namespace WebApplication.Models
         }
     
         public virtual DbSet<TkbDanhSach> TkbDanhSaches { get; set; }
-        public virtual DbSet<TkbHocPhan> TkbHocPhans { get; set; }
         public virtual DbSet<TkbGiangVien> TkbGiangViens { get; set; }
+        public virtual DbSet<TkbHocPhan> TkbHocPhans { get; set; }
         public virtual DbSet<TkbThongKe> TkbThongKes { get; set; }
     }
 }

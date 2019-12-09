@@ -5,11 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="8bbbbb4c6b7942758a2349a4f1b6c79f" Name="Diagram1">
-        <EntityTypeShape EntityType="ThoiKhoaBieuModel.TkbDanhSach" Width="1.5" PointX="0.75" PointY="2.125" />
+        <EntityTypeShape EntityType="ThoiKhoaBieuModel.TkbDanhSach" Width="1.5" PointX="0.75" PointY="2.25" />
+        <EntityTypeShape EntityType="ThoiKhoaBieuModel.TkbGiangVien" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="ThoiKhoaBieuModel.TkbHocPhan" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="ThoiKhoaBieuModel.TkbThongKe" Width="1.5" PointX="5.75" PointY="3.75" />
         <AssociationConnector Association="ThoiKhoaBieuModel.FK__TkbHocPha__Tkb_i__395884C4" />
-        <EntityTypeShape EntityType="ThoiKhoaBieuModel.TkbGiangVien" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ThoiKhoaBieuModel.TkbThongKe" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -105,7 +105,7 @@
                 }
                 <tr id="@monHoc.Key">
                     <td>
-                        <a href="#" onclick="toggle('@monHoc.Key')">@monHoc.First().TenHocPhan</a>
+                        <a href="#" title="@monHoc.First().TenHocPhan" onclick="toggle('@monHoc.Key')">@(monHoc.First().VietTat ?? monHoc.First().TenHocPhan)</a>
                     </td>
                     @for (int i=2; i<=7; i++)
                     {
@@ -125,7 +125,8 @@
                                             {
                                                 Colors[row[j].NhomTo] = new string[] { Random.Next(200).ToString(), Random.Next(200).ToString(), Random.Next(255).ToString() };
                                             }
-                                            <div title="@row[j].NhomTo" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;border-color:rgb(@String.Join(",", Colors[row[j].NhomTo]))">
+                                            var title = String.Format("{0}: T{1}-{2}~{3}; {4} ({5}SV)", row[j].NhomTo, row[j].Thu, row[j].TietBatDau, row[j].SoTiet, row[j].Phong, row[j].SoSV);
+                                            <div title="@title" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;border-color:rgb(@String.Join(",", Colors[row[j].NhomTo]))">
                                                 <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right"></a>
                                             </div>
                                             j += row[j].SoTiet - 1;
