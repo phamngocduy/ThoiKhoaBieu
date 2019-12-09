@@ -179,6 +179,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\select2.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="Content\typeaheadjs-bootstrap.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -220,8 +222,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\typeahead.js" />
     <Content Include="Scripts\typeaheadjs.js" />
+    <Content Include="Scripts\vue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -244,6 +249,7 @@
     <Content Include="Views\TkbGiangVien\Index.cshtml" />
     <Content Include="Views\TkbHocPhan\Edit.cshtml" />
     <Content Include="Views\TkbHocPhan\Index.cshtml" />
+    <Content Include="Views\TkbThongKe\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

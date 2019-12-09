@@ -1,7 +1,108 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<style>
+    .body-content {
+        width: 100% !important;
+    }
 
+    .row {
+        margin-left: -5px !important;
+        margin-right: -5px !important;
+    }
+</style>
+
+<div class="row">
+    <h2 style="display:inline">Thống kê</h2>
+    @Html.DropDownList("GiangVien", "Chọn giảng viên...")
+</div>
+<hr />
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th rowspan="2">Giảng viên</th>
+            @for (int i = 2; i <= 7; i++)
+            {
+                <th colspan="12" style="text-align:center">Thứ @i</th>
+            }
+        </tr>
+        <tr>
+            @for (int i = 0; i < 6; i++)
+            {
+                for (int j = 1; j <= 12; j++)
+                {
+                    <th style="font-family:monospace">
+                        @switch (j)
+                        {
+                            case 10:
+                                @('J')
+                                break;
+                            case 11:
+                                @('Q')
+                                break;
+                            case 12:
+                                @('K')
+                                break;
+                            default:
+                                @j
+                                break;
+                        }
+                    </th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody id="tkb">
+        <tr v-for="gv in GiangVien">
+            <td>
+                <a href="#" :id="gv.MaGV" onclick="remove(this)">{{ gv.HoVaTen }}</a>
+            </td>
+            @for (int i = 0; i < 6; i++)
+            {
+                <td colspan="12">
+                    <div class="row">
+                        <div :class="'col-xs-offset-'+hp.Offset+' col-xs-'+hp.Length" v-for="hp in gv.ThoiKhoaBieu[@i]" style="border-style:groove;padding-left:0">
+                            <abbr :title="hp.NhomTo+' - '+hp.TenHocPhan">{{ hp.VietTat }}</abbr>
+                        </div>
+                    </div>
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#tkb',
+            data: {
+                GiangVien: []
+            }
+        });
+        const distinct = (value, index, self) => {
+            return self.indexOf(value) === index;
+        };
+        var GiangVien = [];
+        if (localStorage.getItem('GiangVien') != null)
+            GiangVien = JSON.parse(localStorage.getItem('GiangVien'));
+        $(function () {
+            $('#GiangVien').select2().change(function () {
+                if ($(this).val().length > 0) {
+                    GiangVien.push($(this).val());
+                    GiangVien = GiangVien.filter(distinct);
+                }
+                $.getJSON(`@Url.Action("GetGiangVienHocPhan")?maGVs=${GiangVien.join()}`, function (json) {
+                    app.GiangVien = json;
+                });
+                localStorage.setItem('GiangVien', JSON.stringify(GiangVien));
+            }).trigger('change');
+        });
+        function remove(elem) {
+            GiangVien.splice(GiangVien.indexOf(elem.id), 1);
+            localStorage.setItem('GiangVien', JSON.stringify(GiangVien));
+            location.reload();
+        }
+    </script>
+}

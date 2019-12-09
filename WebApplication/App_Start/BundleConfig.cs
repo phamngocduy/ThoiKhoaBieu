@@ -21,11 +21,11 @@ namespace WebApplication
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js", "~/Scripts/bootstrap-editable.js",
-                      "~/Scripts/typeahead.js", "~/Scripts/typeaheadjs.js"));
+                      "~/Scripts/typeahead.js", "~/Scripts/typeaheadjs.js", "~/Scripts/select2.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css", "~/Content/bootstrap-editable.css",
-                      "~/Content/typeaheadjs-bootstrap.css", "~/Content/site.css"));
+                      "~/Content/typeaheadjs-bootstrap.css", "~/Content/select2.css", "~/Content/site.css"));
         }
     }
 }

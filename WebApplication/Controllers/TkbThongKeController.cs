@@ -12,7 +12,56 @@ namespace WebApplication.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            using (var db = new TkbEntities())
+            {
+                ViewBag.GiangVien = new SelectList(db.TkbGiangViens.Select(gv => new
+                {
+                    gv.MaGV, HoTen = gv.HoTen + " - " + gv.MaGV
+                }).ToArray(), "MaGV", "HoTen");
+                return View();
+            }
+        }
+
+        public JsonResult GetGiangVienHocPhan(string maGVs)
+        {
+            var result = new List<object>();
+            using (var db = new TkbEntities())
+            {
+                foreach (var maGV in maGVs.Split(','))
+                {
+                    var list = new List<object>[8];
+                    for (int i = 2; i <= 7; i++)
+                        list[i] = new List<object>();
+                    var thongKes = db.TkbThongKes.Where(tk => tk.MaGV.ToUpper() == maGV.ToUpper());
+                    foreach (var thongKe in thongKes.GroupBy(tk => tk.Thu))
+                    {
+                        var offset = 1;
+                        foreach (var model in thongKe.OrderBy(tk => tk.TietBatDau))
+                        {
+                            var hocPhan = db.TkbHocPhans.Find(model.MaHP) ?? new TkbHocPhan();
+                            list[thongKe.Key].Add(new
+                            {
+                                Offset = model.TietBatDau - offset,
+                                Length = model.SoTiet,
+                                hocPhan.TenHocPhan, hocPhan.VietTat, hocPhan.NhomTo
+                            });
+                            offset = model.TietBatDau + model.SoTiet;
+                        }
+                    }
+                    var giangVien = db.TkbGiangViens.Single(gv => gv.MaGV.ToUpper() == maGV.ToUpper());
+                    var ho_va_ten = giangVien.HoTen.Split();
+                    var hoTen = String.Empty;
+                    for (int i = 0; i < ho_va_ten.Length - 1; i++)
+                        hoTen = hoTen + ho_va_ten[i][0];
+                    result.Add(new
+                    {
+                        giangVien.MaGV,
+                        HoVaTen = hoTen + ho_va_ten.Last(),
+                        ThoiKhoaBieu = list.Skip(2).Take(6).Select(tkb => tkb.ToArray()).ToArray()
+                    });
+                }
+            }
+            return Json(result.ToArray(), JsonRequestBehavior.AllowGet);
         }
 
         public string SetGiangVienHocPhan(int pk, string value)
