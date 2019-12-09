@@ -241,10 +241,9 @@
     <Content Include="Views\TkbGiangVien\Details.cshtml" />
     <Content Include="Views\TkbGiangVien\Edit.cshtml" />
     <Content Include="Views\TkbGiangVien\Index.cshtml" />
+    <Content Include="Views\TkbThongKe\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\TkbThongKe\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

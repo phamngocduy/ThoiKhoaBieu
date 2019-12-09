@@ -10,6 +10,11 @@ namespace WebApplication.Controllers
 {
     public class TkbThongKeController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public string SetGiangVienHocPhan(int pk, string value)
         {
             try
