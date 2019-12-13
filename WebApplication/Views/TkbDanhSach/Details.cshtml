@@ -3,8 +3,9 @@
     ViewBag.Title = "Details";
     var ThongKe = ViewBag.ThongKe as List<TkbThongKe>;
     var GiangVien = ViewBag.GiangVien as List<TkbGiangVien>;
-    var Colors = new Dictionary<string, string[]>();
+    var Colors = new Dictionary<string, string>();
     var Random = new Random();
+    var COLORS = new List<string>(new string[] { "#00ffff", "#f0ffff", "#f5f5dc", "#000000", "#a52a2a", "#00ffff", "#ff00ff", "#ffd700", "#008000", "#4b0082", "#f0e68c", "#00ff00", "#ff00ff", "#800000", "#000080", "#808000", "#ffa500", "#ffc0cb", "#800080", "#800080", "#c0c0c0", "#ffff00", "#ffffff" });
 }
 
 <style>
@@ -123,10 +124,13 @@
                                             var giangVien = thongKe != null ? GiangVien.FirstOrDefault(gv => gv.MaGV.ToUpper() == thongKe.MaGV.ToUpper()) : null;
                                             if (!Colors.ContainsKey(row[j].NhomTo))
                                             {
-                                                Colors[row[j].NhomTo] = new string[] { Random.Next(200).ToString(), Random.Next(200).ToString(), Random.Next(255).ToString() };
+                                                var index = Random.Next(COLORS.Count);
+                                                var color = COLORS[index];
+                                                COLORS.RemoveAt(index);
+                                                Colors[row[j].NhomTo] = color;
                                             }
                                             var title = String.Format("{0}: T{1}-{2}~{3}; {4} ({5}SV)", row[j].NhomTo, row[j].Thu, row[j].TietBatDau, row[j].SoTiet, row[j].Phong, row[j].SoSV);
-                                            <div title="@title" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;border-color:rgb(@String.Join(",", Colors[row[j].NhomTo]))">
+                                            <div title="@title" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;background:@Colors[row[j].NhomTo]">
                                                 <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right"></a>
                                             </div>
                                             j += row[j].SoTiet - 1;
