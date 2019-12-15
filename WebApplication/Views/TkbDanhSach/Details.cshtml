@@ -6,12 +6,14 @@
     var Colors = new Dictionary<string, string>();
     var Random = new Random();
     var COLORS = new List<string>(new string[] { "#00ffff", "#f0ffff", "#f5f5dc", "#000000", "#a52a2a", "#00ffff", "#ff00ff", "#ffd700", "#008000", "#4b0082", "#f0e68c", "#00ff00", "#ff00ff", "#800000", "#000080", "#808000", "#ffa500", "#ffc0cb", "#800080", "#800080", "#c0c0c0", "#ffff00", "#ffffff" });
+    var zIndex = 1;
 }
 
 <style>
     .body-content {
         width: 100% !important;
     }
+
     .row {
         margin-left: -5px !important;
         margin-right: -5px !important;
@@ -19,7 +21,10 @@
 </style>
 
 <div>
-    <h4>@Model.TenGoi</h4>
+    <h4>
+        @Model.TenGoi
+        <input id="checkColor" type="checkbox" checked data-toggle="toggle" data-on="Color" data-off="Color">
+    </h4>
     @foreach (var monHoc in Model.TkbHocPhans.GroupBy(mh => mh.MaHP))
     {
         <a id="@monHoc.Key" href="#" onclick="toggle('@monHoc.Key')" style="display:none">@monHoc.First().TenHocPhan;</a>
@@ -31,15 +36,15 @@
                 <th rowspan="2">
                     <a href="#" onclick="toggleAll()">Môn học</a>
                 </th>
-                @for (int i=2; i<=7; i++)
+                @for (int i = 2; i <= 7; i++)
                 {
                     <th colspan="12" style="text-align:center">Thứ @i</th>
                 }
             </tr>
             <tr>
-                @for (int i=0; i<6; i++)
+                @for (int i = 0; i < 6; i++)
                 {
-                    for (int j=1; j<=12; j++)
+                    for (int j = 1; j <= 12; j++)
                     {
                         <th style="font-family:monospace">
                             @switch (j)
@@ -77,18 +82,18 @@
                     foreach (var row in list)
                     {
                         var found = true;
-                        for (int i=0; i<hocPhan.SoTiet; i++)
+                        for (int i = 0; i < hocPhan.SoTiet; i++)
                         {
-                            if (row[hocPhan.TietBatDau-1 + i] != null)
+                            if (row[hocPhan.TietBatDau - 1 + i] != null)
                             {
                                 found = false;
                             }
                         }
                         if (found == true)
                         {
-                            for (int i=0; i<hocPhan.SoTiet; i++)
+                            for (int i = 0; i < hocPhan.SoTiet; i++)
                             {
-                                row[hocPhan.TietBatDau-1 + i] = hocPhan;
+                                row[hocPhan.TietBatDau - 1 + i] = hocPhan;
                             }
                             done = true;
                             break;
@@ -97,9 +102,9 @@
                     if (done == false)
                     {
                         var row = new TkbHocPhan[12];
-                        for (int i=0; i<hocPhan.SoTiet; i++)
+                        for (int i = 0; i < hocPhan.SoTiet; i++)
                         {
-                            row[hocPhan.TietBatDau-1 + i] = hocPhan;
+                            row[hocPhan.TietBatDau - 1 + i] = hocPhan;
                         }
                         list.Add(row);
                     }
@@ -108,7 +113,7 @@
                     <td>
                         <a href="#" title="@monHoc.First().TenHocPhan" onclick="toggle('@monHoc.Key')">@(monHoc.First().VietTat ?? monHoc.First().TenHocPhan)</a>
                     </td>
-                    @for (int i=2; i<=7; i++)
+                    @for (int i = 2; i <= 7; i++)
                     {
                         var list = hash.ContainsKey(i) ? hash[i] : new List<TkbHocPhan[]>();
                         <td colspan="12">
@@ -116,7 +121,7 @@
                             {
                                 var offset = 0;
                                 <div class="row">
-                                    @for (int j=0; j<row.Length; j++)
+                                    @for (int j = 0; j < row.Length; j++)
                                     {
                                         if (row[j] != null)
                                         {
@@ -130,8 +135,8 @@
                                                 Colors[row[j].NhomTo] = color;
                                             }
                                             var title = String.Format("{0}: T{1}-{2}~{3}; {4} ({5}SV)", row[j].NhomTo, row[j].Thu, row[j].TietBatDau, row[j].SoTiet, row[j].Phong, row[j].SoSV);
-                                            <div title="@title" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;background:@Colors[row[j].NhomTo]">
-                                                <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right"></a>
+                                            <div id="hocPhan" title="@title" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;z-index:@(zIndex++);background:@Colors[row[j].NhomTo]">
+                                                <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right" style="mix-blend-mode:difference"></a>
                                             </div>
                                             j += row[j].SoTiet - 1;
                                             offset = 0;
@@ -164,6 +169,19 @@
                 $(`tr[id=${maHP}]`).toggle(!show);
             });
         }
+        $('#checkColor').change(function () {
+            if (this.checked) {
+                $('div[id=hocPhan]').each(function () {
+                    $(this).css('background', $(this).attr('background'));
+                });
+            } else {
+                $('div[id=hocPhan]').each(function () {
+                    var color = $(this).css('background');
+                    $(this).attr('background', color);
+                    $(this).css('background', 'white');
+                });
+            }
+        });
     </script>
     <script>
         $(function () {
