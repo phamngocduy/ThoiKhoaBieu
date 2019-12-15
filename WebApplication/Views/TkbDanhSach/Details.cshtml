@@ -136,7 +136,7 @@
                                             }
                                             var title = String.Format("{0}: T{1}-{2}~{3}; {4} ({5}SV)", row[j].NhomTo, row[j].Thu, row[j].TietBatDau, row[j].SoTiet, row[j].Phong, row[j].SoSV);
                                             <div id="hocPhan" title="@title" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;z-index:@(zIndex++);background:@Colors[row[j].NhomTo]">
-                                                <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right" style="mix-blend-mode:difference"></a>
+                                                <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right"></a>
                                             </div>
                                             j += row[j].SoTiet - 1;
                                             offset = 0;
@@ -173,14 +173,35 @@
             if (this.checked) {
                 $('div[id=hocPhan]').each(function () {
                     $(this).css('background', $(this).attr('background'));
+                    $(this).find('a').css('color', $(this).find('a').attr('color'));
                 });
             } else {
                 $('div[id=hocPhan]').each(function () {
                     var color = $(this).css('background');
                     $(this).attr('background', color);
                     $(this).css('background', 'white');
+                    $(this).find('a').each(function () {
+                        var color = $(this).css('color');
+                        $(this).css('color', '');
+                        $(this).attr('color', color);
+                    })
                 });
             }
+        });
+        $('div[id=hocPhan]').each(function () {
+            var C = $(this).css('background-color').toLowerCase().replace('rgb(', '').replace(')', '').split(', ');
+            for (var i = 0; i < C.length; ++i) {
+                C[i] = C[i] / 255;
+                if (C[i] <= 0.03928)
+                    C[i] = C[i] / 12.92;
+                else
+                    C[i] = Math.pow((C[i] + 0.055) / 1.055, 2.4);
+            }
+            L = 0.2126 * C[0] + 0.7152 * C[1] + 0.0722 * C[2];
+            if (L > 0.179)
+                $(this).find('a').css('color', 'black');
+            else
+                $(this).find('a').css('color', 'white');
         });
     </script>
     <script>
