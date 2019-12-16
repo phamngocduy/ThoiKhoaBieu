@@ -227,4 +227,29 @@
             });
         });
     </script>
+    <script>
+        const nodeMap = {};
+        // create an observer instance
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.addedNodes.length == 1) {
+                    var node = $(mutation.addedNodes[0]).parent('div');
+                    node.css('z-index', node.css('z-index') * 100);
+                    nodeMap[mutation.addedNodes[0].id] = node;
+                }
+                if (mutation.removedNodes.length == 1) {
+                    var node = nodeMap[mutation.removedNodes[0].id];
+                    node.css('z-index', node.css('z-index') / 100);
+                }
+            });
+        });
+        // configuration of the observer:
+        var config = { attributes: true, childList: true, characterData: true }
+        // pass in the target node, as well as the observer options
+        $(function () {
+            $('div[id=hocPhan]').each(function () {
+                observer.observe(this, config);
+            });
+        })
+    </script>
 }
