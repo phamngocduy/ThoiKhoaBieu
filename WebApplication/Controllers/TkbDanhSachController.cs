@@ -53,19 +53,21 @@ namespace WebApplication.Controllers
             {
                 foreach (DataTable table in result.Tables)
                 {
-                    var model = new TkbDanhSach
-                    {
-                        NgayTao = DateTime.Now,
-                        TenGoi = table.TableName,
-                    };
-                    db.TkbDanhSaches.Add(model);
+                    var danhSach = db.TkbDanhSaches.FirstOrDefault(ds => ds.TenGoi == table.TableName) ?? new TkbDanhSach { TenGoi = table.TableName };
+                    danhSach.NgayTao = DateTime.Now;
+                    if (danhSach.id == 0)
+                        db.TkbDanhSaches.Add(danhSach);
+                    else
+                        db.Entry(danhSach).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    var hocPhans = db.TkbHocPhans.Where(hp => hp.Tkb_id == danhSach.id).Select(hp => hp.id).ToList();
 
                     foreach (DataRow row in table.Rows)
                     {
-                        db.TkbHocPhans.Add(new TkbHocPhan
+                        var hocPhan = new TkbHocPhan
                         {
-                            Tkb_id = model.id,
+                            Tkb_id = danhSach.id,
                             MaHP = row["Mã HP"].ToString(),
                             TenHocPhan = row["Tên học phần"].ToString(),
                             TinChi = row["Tín chỉ"].ToInteger(),
@@ -79,8 +81,28 @@ namespace WebApplication.Controllers
                             TuanKetThuc = row["Tuần kết thúc"].ToInteger(),
                             Nganh = row["Ngành"].ToString(),
                             MaKhoa = row["Mã khoa"].ToString(),
-                        });
+                        };
+                        hocPhan.VietTat = db.TkbHocPhans.FirstOrDefault(hp => hp.MaHP == hocPhan.MaHP)?.VietTat;
+                        var hocPhanCu = db.TkbHocPhans.FirstOrDefault(hp => hp.Tkb_id == danhSach.id && hp.MaHP == hocPhan.MaHP && hp.NhomTo == hocPhan.NhomTo && hp.Thu == hocPhan.Thu && hp.TietBatDau == hocPhan.TietBatDau);
+                        if (hocPhanCu != null)
+                        {
+                            hocPhanCu.TenHocPhan = hocPhan.TenHocPhan;
+                            hocPhanCu.TinChi = hocPhan.TinChi;
+                            hocPhanCu.Phong = hocPhan.Phong;
+                            hocPhanCu.SoTiet = hocPhan.SoTiet;
+                            hocPhanCu.SoSV = hocPhan.SoSV;
+                            hocPhanCu.TuanBatDau = hocPhan.TuanBatDau;
+                            hocPhanCu.TuanKetThuc = hocPhan.TuanKetThuc;
+                            hocPhanCu.Nganh = hocPhan.Nganh;
+                            hocPhanCu.MaKhoa = hocPhan.MaKhoa;
+                            db.Entry(hocPhanCu).State = EntityState.Modified;
+                            hocPhans.Remove(hocPhanCu.id);
+                        }
+                        else
+                            db.TkbHocPhans.Add(hocPhan);
                     }
+                    foreach (var id in hocPhans)
+                        db.TkbHocPhans.Remove(db.TkbHocPhans.Find(id));
                     db.SaveChanges();
                 }
                 scope.Complete();
