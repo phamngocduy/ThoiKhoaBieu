@@ -83,12 +83,11 @@ namespace WebApplication.Controllers
                             MaKhoa = row["Mã khoa"].ToString(),
                         };
                         hocPhan.VietTat = db.TkbHocPhans.FirstOrDefault(hp => hp.MaHP == hocPhan.MaHP)?.VietTat;
-                        var hocPhanCu = db.TkbHocPhans.FirstOrDefault(hp => hp.Tkb_id == danhSach.id && hp.MaHP == hocPhan.MaHP && hp.NhomTo == hocPhan.NhomTo && hp.Thu == hocPhan.Thu && hp.TietBatDau == hocPhan.TietBatDau);
+                        var hocPhanCu = db.TkbHocPhans.FirstOrDefault(hp => hp.Tkb_id == danhSach.id && hp.MaHP == hocPhan.MaHP && hp.NhomTo == hocPhan.NhomTo && hp.Thu == hocPhan.Thu && hp.TietBatDau == hocPhan.TietBatDau && hp.Phong == hocPhan.Phong);
                         if (hocPhanCu != null)
                         {
                             hocPhanCu.TenHocPhan = hocPhan.TenHocPhan;
                             hocPhanCu.TinChi = hocPhan.TinChi;
-                            hocPhanCu.Phong = hocPhan.Phong;
                             hocPhanCu.SoTiet = hocPhan.SoTiet;
                             hocPhanCu.SoSV = hocPhan.SoSV;
                             hocPhanCu.TuanBatDau = hocPhan.TuanBatDau;
