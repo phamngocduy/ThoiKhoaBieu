@@ -1,14 +1,16 @@
 ﻿using ExcelDataReader;
+using LINQtoCSV;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using System.Transactions;
 using WebApplication.Models;
+using System.Collections.Generic;
+using DataRow = System.Data.DataRow;
 
 namespace WebApplication.Controllers
 {
@@ -165,6 +167,25 @@ namespace WebApplication.Controllers
             db.TkbDanhSaches.Remove(model);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public FileResult Download(int id)
+        {
+            var file = Path.GetTempFileName();
+            var model = db.TkbDanhSaches.Find(id);
+            var data = from hp in model.TkbHocPhans
+                join tk in db.TkbThongKes on hp.id equals tk.MaHP
+                join gv in db.TkbGiangViens on tk.MaGV equals gv.MaGV
+                select new
+                {
+                    hp.MaHP, hp.TenHocPhan, hp.TinChi, hp.NhomTo, hp.Thu, hp.Phong,
+                    GiangVien = gv.HoTen, gv.MaGV,
+                    hp.TietBatDau, hp.SoTiet, hp.SoSV,
+                    hp.TuanBatDau, hp.TuanKetThuc, hp.Nganh, hp.MaKhoa
+                };
+            var csv = new CsvContext();
+            csv.Write(data, file);
+            return File(file, "application/vnd.ms-excel", model.TenGoi + ".csv");
         }
 
         protected override void Dispose(bool disposing)
