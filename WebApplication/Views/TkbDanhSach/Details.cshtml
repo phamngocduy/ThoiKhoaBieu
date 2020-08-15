@@ -6,6 +6,7 @@
     var Colors = new Dictionary<string, string>();
     var Random = new Random();
     var COLORS = new List<string>(new string[] { "#00ffff", "#f0ffff", "#f5f5dc", "#000000", "#a52a2a", "#00ffff", "#ff00ff", "#ffd700", "#008000", "#4b0082", "#f0e68c", "#00ff00", "#ff00ff", "#800000", "#000080", "#808000", "#ffa500", "#ffc0cb", "#800080", "#800080", "#c0c0c0", "#ffff00", "#ffffff" });
+    COLORS.AddRange(COLORS);
     var zIndex = 1;
 }
 
@@ -17,6 +18,100 @@
     .row {
         margin-left: -5px !important;
         margin-right: -5px !important;
+    }
+
+    .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-13, .col-14, .col-15 {
+        float: left;
+    }
+    .col-1 {
+        width: 6.666666667%;
+    }
+    .col-2 {
+        width: 13.33333333%;
+    }
+    .col-3 {
+        width: 20%;
+    }
+    .col-4 {
+        width: 26.66666667%;
+    }
+    .col-5 {
+        width: 33.33333333%;
+    }
+    .col-6 {
+        width: 40%;
+    }
+    .col-7 {
+        width: 46.66666667%;
+    }
+    .col-8 {
+        width: 53.33333333%;
+    }
+    .col-9 {
+        width: 60%;
+    }
+    .col-10 {
+        width: 66.66666667%;
+    }
+    .col-11 {
+        width: 73.33333333%;
+    }
+    .col-12 {
+        width: 80%;
+    }
+    .col-13 {
+        width: 86.66666667%;
+    }
+    .col-14 {
+        width: 93.33333333%;
+    }
+    .col-15 {
+        width: 100%;
+    }
+    .col-offset-1 {
+        margin-left: 6.666666667%;
+    }
+    .col-offset-2 {
+        margin-left: 13.33333333%;
+    }
+    .col-offset-3 {
+        margin-left: 20%;
+    }
+    .col-offset-4 {
+        margin-left: 26.66666667%;
+    }
+    .col-offset-5 {
+        margin-left: 33.33333333%;
+    }
+    .col-offset-6 {
+        margin-left: 40%;
+    }
+    .col-offset-7 {
+        margin-left: 46.66666667%;
+    }
+    .col-offset-8 {
+        margin-left: 53.33333333%;
+    }
+    .col-offset-9 {
+        margin-left: 60%;
+    }
+    .col-offset-10 {
+        margin-left: 66.66666667%;
+    }
+    .col-offset-11 {
+        margin-left: 73.33333333%;
+    }
+    .col-offset-12 {
+        margin-left: 80%;
+    }
+    .col-offset-13 {
+        margin-left: 86.66666667%;
+    }
+    .col-offset-14 {
+        margin-left: 93.33333333%;
+    }
+    .col-offset-15 {
+        margin-left: 100%;
     }
 </style>
 
@@ -38,13 +133,13 @@
                 </th>
                 @for (int i = 2; i <= 7; i++)
                 {
-                    <th colspan="12" style="text-align:center">Thứ @i</th>
+                    <th colspan="15" style="text-align:center">Thứ @i</th>
                 }
             </tr>
             <tr>
                 @for (int i = 0; i < 6; i++)
                 {
-                    for (int j = 1; j <= 12; j++)
+                    for (int j = 1; j <= 15; j++)
                     {
                         <th style="font-family:monospace">
                             @switch (j)
@@ -57,6 +152,15 @@
                                     break;
                                 case 12:
                                     @('K')
+                                    break;
+                                case 13:
+                                    @('D')
+                                    break;
+                                case 14:
+                                    @('U')
+                                    break;
+                                case 15:
+                                    @('Y')
                                     break;
                                 default:
                                     @j
@@ -101,7 +205,7 @@
                     }
                     if (done == false)
                     {
-                        var row = new TkbHocPhan[12];
+                        var row = new TkbHocPhan[15];
                         for (int i = 0; i < hocPhan.SoTiet; i++)
                         {
                             row[hocPhan.TietBatDau - 1 + i] = hocPhan;
@@ -116,7 +220,7 @@
                     @for (int i = 2; i <= 7; i++)
                     {
                         var list = hash.ContainsKey(i) ? hash[i] : new List<TkbHocPhan[]>();
-                        <td colspan="12">
+                        <td colspan="15">
                             @foreach (var row in list)
                             {
                                 var offset = 0;
@@ -135,7 +239,7 @@
                                                 Colors[row[j].NhomTo] = color;
                                             }
                                             var title = String.Format("{0}: T{1}-{2}~{3}; {4} ({5}SV)", row[j].NhomTo, row[j].Thu, row[j].TietBatDau, row[j].SoTiet, row[j].Phong, row[j].SoSV);
-                                            <div id="hocPhan" title="@title" class="col-xs-offset-@offset col-xs-@row[j].SoTiet" style="border-style:groove;padding-left:0;z-index:@(zIndex++);background:@Colors[row[j].NhomTo]">
+                                            <div id="hocPhan" title="@title" class="col-offset-@offset col-@row[j].SoTiet" style="border-style:groove;padding-left:0;z-index:@(zIndex++);background:@Colors[row[j].NhomTo]">
                                                 <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right"></a>
                                             </div>
                                             j += row[j].SoTiet - 1;
