@@ -35,8 +35,9 @@
             @Html.ActionLink(item.TenGoi, "Details", new { id = item.id })
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id }) |
+            @Html.ActionLink("Download", "Download", new { id = item.id })
         </td>
     </tr>
 }
