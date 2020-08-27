@@ -6,7 +6,7 @@
     var Colors = new Dictionary<string, string>();
     var Random = new Random();
     var COLORS = new List<string>(new string[] { "#00ffff", "#f0ffff", "#f5f5dc", "#000000", "#a52a2a", "#00ffff", "#ff00ff", "#ffd700", "#008000", "#4b0082", "#f0e68c", "#00ff00", "#ff00ff", "#800000", "#000080", "#808000", "#ffa500", "#ffc0cb", "#800080", "#800080", "#c0c0c0", "#ffff00", "#ffffff" });
-    COLORS.AddRange(COLORS);
+    COLORS.AddRange(COLORS); COLORS.AddRange(COLORS); COLORS.AddRange(COLORS);
     var zIndex = 1;
 }
 
@@ -23,93 +23,123 @@
     .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-13, .col-14, .col-15 {
         float: left;
     }
+
     .col-1 {
         width: 6.666666667%;
     }
+
     .col-2 {
         width: 13.33333333%;
     }
+
     .col-3 {
         width: 20%;
     }
+
     .col-4 {
         width: 26.66666667%;
     }
+
     .col-5 {
         width: 33.33333333%;
     }
+
     .col-6 {
         width: 40%;
     }
+
     .col-7 {
         width: 46.66666667%;
     }
+
     .col-8 {
         width: 53.33333333%;
     }
+
     .col-9 {
         width: 60%;
     }
+
     .col-10 {
         width: 66.66666667%;
     }
+
     .col-11 {
         width: 73.33333333%;
     }
+
     .col-12 {
         width: 80%;
     }
+
     .col-13 {
         width: 86.66666667%;
     }
+
     .col-14 {
         width: 93.33333333%;
     }
+
     .col-15 {
         width: 100%;
     }
+
     .col-offset-1 {
         margin-left: 6.666666667%;
     }
+
     .col-offset-2 {
         margin-left: 13.33333333%;
     }
+
     .col-offset-3 {
         margin-left: 20%;
     }
+
     .col-offset-4 {
         margin-left: 26.66666667%;
     }
+
     .col-offset-5 {
         margin-left: 33.33333333%;
     }
+
     .col-offset-6 {
         margin-left: 40%;
     }
+
     .col-offset-7 {
         margin-left: 46.66666667%;
     }
+
     .col-offset-8 {
         margin-left: 53.33333333%;
     }
+
     .col-offset-9 {
         margin-left: 60%;
     }
+
     .col-offset-10 {
         margin-left: 66.66666667%;
     }
+
     .col-offset-11 {
         margin-left: 73.33333333%;
     }
+
     .col-offset-12 {
         margin-left: 80%;
     }
+
     .col-offset-13 {
         margin-left: 86.66666667%;
     }
+
     .col-offset-14 {
         margin-left: 93.33333333%;
     }
+
     .col-offset-15 {
         margin-left: 100%;
     }
@@ -125,7 +155,66 @@
         <a id="@monHoc.Key" href="#" onclick="toggle('@monHoc.Key')" style="display:none">@monHoc.First().TenHocPhan;</a>
     }
     <hr />
-    <table class="table table-bordered table-condensed table-hover table-striped">
+    <table id="table1" class="table table-bordered table-condensed table-hover table-striped" style="background-color:white">
+        <thead>
+            <tr>
+                <th rowspan="2">Môn học</th>
+                @for (int i = 2; i <= 7; i++)
+                {
+                    <th colspan="15" style="text-align:center">Thứ @i</th>
+                }
+            </tr>
+            <tr>
+                @for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 1; j <= 15; j++)
+                    {
+                        <th style="font-family:monospace">
+                            @switch (j)
+                            {
+                                case 10:
+                                    @('J')
+                                    break;
+                                case 11:
+                                    @('Q')
+                                    break;
+                                case 12:
+                                    @('K')
+                                    break;
+                                case 13:
+                                    @('D')
+                                    break;
+                                case 14:
+                                    @('U')
+                                    break;
+                                case 15:
+                                    @('Y')
+                                    break;
+                                default:
+                                    @j
+                                    break;
+                            }
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody style="visibility:collapse">
+            @foreach (var monHoc in Model.TkbHocPhans.GroupBy(hp => hp.MaHP))
+            {
+                <tr id="@monHoc.Key">
+                    <td>
+                        @(monHoc.First().VietTat ?? monHoc.First().TenHocPhan)
+                    </td>
+                    @for (int i = 2; i <= 7; i++)
+                    {
+                        <td colspan="15"></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <table id="table2" class="table table-bordered table-condensed table-hover table-striped">
         <thead>
             <tr>
                 <th rowspan="2">
@@ -355,5 +444,34 @@
                 observer.observe(this, config);
             });
         })
+    </script>
+
+    <style>
+        .sticky {
+            top: 50px;
+            position: fixed;
+        }
+    </style>
+    <script>
+        var sticky = $('#table2').offset().top;
+        var header = $('#table1').hide().width($('#table2').width());
+        window.onscroll = function () {
+            if (window.pageYOffset > sticky) {
+                header.addClass("sticky").show();
+            } else {
+                header.removeClass("sticky").hide();
+            }
+        }
+
+        $('#table2').delegate('td', 'mouseover mouseleave', function (e) {
+            if (e.type == 'mouseover') {
+                $(this).parent().addClass('hover');
+                $('colgroup').eq($(this).index()).addClass('hover');
+            }
+            else {
+                $(this).parent().removeClass('hover');
+                $('colgroup').eq($(this).index()).removeClass('hover');
+            }
+        });
     </script>
 }
