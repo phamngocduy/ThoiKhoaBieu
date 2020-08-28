@@ -135,6 +135,12 @@
     .col-offset-15 {
         margin-left: 100%;
     }
+
+    .ellipsis {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 </style>
 
 <div class="row">
@@ -195,8 +201,8 @@
             {
                 <td colspan="15">
                     <div class="row">
-                        <div :class="'col-offset-'+hp.Offset+' col-'+hp.Length" v-for="hp in gv.ThoiKhoaBieu[@i]" style="border-style:groove;padding-left:0">
-                            <abbr :title="hp.NhomTo+' - '+hp.TenHocPhan">{{ hp.VietTat }}</abbr>
+                        <div :class="'col-offset-'+hp.Offset+' col-'+hp.Length+' ellipsis'" v-for="hp in gv.ThoiKhoaBieu[@i]" style="border-style:groove;padding-left:0">
+                            <abbr :title="hp.NhomTo+' - '+hp.TenHocPhan">{{ hp.TenHocPhan }}</abbr>
                         </div>
                     </div>
                 </td>
