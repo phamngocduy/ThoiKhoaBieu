@@ -328,7 +328,8 @@
                                                 Colors[row[j].NhomTo] = color;
                                             }
                                             var title = String.Format("{0}: T{1}-{2}~{3}; {4} ({5}SV)", row[j].NhomTo, row[j].Thu, row[j].TietBatDau, row[j].SoTiet, row[j].Phong, row[j].SoSV);
-                                            <div id="hocPhan" title="@title" class="col-offset-@offset col-@row[j].SoTiet" style="border-style:groove;padding-left:0;z-index:@(zIndex++);background:@Colors[row[j].NhomTo]">
+                                            var border = row[j].SoSV == Model.TkbHocPhans.Where(r => r.MaHP == row[j].MaHP && r.NhomTo == row[j].NhomTo).Max(r => r.SoSV) ? "border-color:springgreen" : null;
+                                            <div id="hocPhan" title="@title" class="col-offset-@offset col-@row[j].SoTiet" style="border-style:groove;padding-left:0;z-index:@(zIndex++);background:@Colors[row[j].NhomTo];@border">
                                                 <a href="#" data-pk="@row[j].id" data-value="@(giangVien != null ? String.Format("{0} - {1}", giangVien.HoTen, giangVien.MaGV) : null)" data-type="typeaheadjs" data-placement="right"></a>
                                             </div>
                                             j += row[j].SoTiet - 1;
