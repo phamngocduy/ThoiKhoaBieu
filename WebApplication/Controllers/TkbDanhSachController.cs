@@ -174,12 +174,13 @@ namespace WebApplication.Controllers
             var file = Path.GetTempFileName();
             var model = db.TkbDanhSaches.Find(id);
             var data = from hp in model.TkbHocPhans
-                join tk in db.TkbThongKes on hp.id equals tk.MaHP
-                join gv in db.TkbGiangViens on tk.MaGV equals gv.MaGV
-                select new
+                join tk in db.TkbThongKes on hp.id equals tk.MaHP into tks
+                from tk in tks.DefaultIfEmpty()
+                join gv in db.TkbGiangViens on tk?.MaGV equals gv.MaGV into gvs
+                from gv in gvs.DefaultIfEmpty() select new
                 {
                     hp.MaHP, hp.TenHocPhan, hp.TinChi, hp.NhomTo, hp.Thu, hp.Phong,
-                    GiangVien = gv.HoTen, gv.MaGV,
+                    GiangVien = gv?.HoTen, gv?.MaGV,
                     hp.TietBatDau, hp.SoTiet, hp.SoSV,
                     hp.TuanBatDau, hp.TuanKetThuc, hp.Nganh, hp.MaKhoa
                 };
