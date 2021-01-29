@@ -64,6 +64,7 @@ namespace WebApplication.Controllers
                     db.SaveChanges();
 
                     var hocPhans = db.TkbHocPhans.Where(hp => hp.Tkb_id == danhSach.id).Select(hp => hp.id).ToList();
+                    var trungGio = new List<int>();
 
                     foreach (DataRow row in table.Rows)
                     {
@@ -85,7 +86,8 @@ namespace WebApplication.Controllers
                             MaKhoa = row["Mã khoa"].ToString(),
                         };
                         hocPhan.VietTat = db.TkbHocPhans.FirstOrDefault(hp => hp.MaHP == hocPhan.MaHP)?.VietTat;
-                        var hocPhanCu = db.TkbHocPhans.FirstOrDefault(hp => hp.Tkb_id == danhSach.id && hp.MaHP == hocPhan.MaHP && hp.NhomTo == hocPhan.NhomTo && hp.Thu == hocPhan.Thu && hp.TietBatDau == hocPhan.TietBatDau && hp.Phong == hocPhan.Phong);
+                        var hocPhanCu = db.TkbHocPhans.FirstOrDefault(hp => !trungGio.Contains(hp.id) &&
+                            hp.Tkb_id == danhSach.id && hp.MaHP == hocPhan.MaHP && hp.NhomTo == hocPhan.NhomTo && hp.Thu == hocPhan.Thu && hp.TietBatDau == hocPhan.TietBatDau && hp.Phong == hocPhan.Phong);
                         if (hocPhanCu != null)
                         {
                             hocPhanCu.TenHocPhan = hocPhan.TenHocPhan;
@@ -98,6 +100,7 @@ namespace WebApplication.Controllers
                             hocPhanCu.MaKhoa = hocPhan.MaKhoa;
                             db.Entry(hocPhanCu).State = EntityState.Modified;
                             hocPhans.Remove(hocPhanCu.id);
+                            trungGio.Add(hocPhanCu.id);
                         }
                         else
                             db.TkbHocPhans.Add(hocPhan);
